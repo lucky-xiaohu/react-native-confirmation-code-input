@@ -220,6 +220,10 @@ export default class ConfirmationCodeInput extends Component {
   }
   
   _onInputCode(character, index) {
+    // patch from https://github.com/ttdung11t2/react-native-confirmation-code-input/pull/10/files
+    if (index < this.props.codeLength - 1) {
+      this._setFocus(this.state.currentIndex + 1);
+    }
     const { codeLength, onFulfill, compareWithCode, ignoreCase, onChangeCode } = this.props;
     let newCodeArr = _.clone(this.state.codeArr);
     newCodeArr[index] = character;
@@ -239,9 +243,6 @@ export default class ConfirmationCodeInput extends Component {
       if (onChangeCode) {
         onChangeCode(code);
       }
-
-    } else {
-      this._setFocus(this.state.currentIndex + 1);
     }
     
     this.setState(prevState => {
